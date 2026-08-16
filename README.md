@@ -23,8 +23,8 @@ SELECT
     ROUND(AVG(TotalAmount), 2) AS avg_order_value
 FROM SalesItems;
 ---
-### 2. Sales & Revenue Performance by Product Category
 ```sql
+### 2. Sales & Revenue Performance by Product Category
 SELECT 
     p.Category,
     COUNT(s.TransactionID) AS total_units_sold,
