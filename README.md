@@ -22,9 +22,9 @@ SELECT
     SUM(TotalAmount) AS total_revenue,
     ROUND(AVG(TotalAmount), 2) AS avg_order_value
 FROM SalesItems;
----
-```sql
+```
 ### 2. Sales & Revenue Performance by Product Category
+```sql
 SELECT 
     p.Category,
     COUNT(s.TransactionID) AS total_units_sold,
@@ -34,4 +34,39 @@ FROM SalesItems s
 JOIN ProductItems p ON s.ProductID = p.ProductID
 GROUP BY p.Category
 ORDER BY revenue DESC;
+```
+### 3. Monthly Sales Growth & Revenue Trend
+```sql
+SELECT 
+    strftime('%Y-%m', s.TransactionDate) AS sales_month,
+    COUNT(DISTINCT s.TransactionID) AS monthly_orders,
+    SUM(s.TotalAmount) AS monthly_revenue
+FROM SalesItems s
+GROUP BY sales_month
+ORDER BY sales_month ASC;
+```
+### 4. Inventory Stock vs. Top Selling Products
+```sql
+SELECT 
+    p.ProductName,
+    p.Category,
+    p.StockQuantity,
+    COALESCE(SUM(s.Quantity), 0) AS units_sold
+FROM ProductItems p
+LEFT JOIN SalesItems s ON p.ProductID = s.ProductID
+GROUP BY p.ProductID
+ORDER BY units_sold DESC
+LIMIT 10;
+```
 
+## Key Findings & Business Recommendations
+* **Top Revenue Drivers**: Sales are heavily concentrated in primary fashion categories; targeted marketing should focus on these high-margin core lines.
+* **Discount Impact**: Promotional discount periods correlate with higher order volumes, but discounting strategies must be balanced to protect overall operating argins.
+* **Stock Optimization**: Combining sales velocity data with remaining stock levels helps prevent stockouts on high-demand items while identifying slow-moving inventory.
+
+## Tech Stack & Tools
+* **Language**: Python
+* **Database Engine**: SQLite / sqlite3
+* **Data Processing**: pandas, openpyxl
+* **Visualization**: matplotlib, seaborn
+* **Platform**: Jupyter Notebook / GitHub
