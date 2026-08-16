@@ -22,7 +22,7 @@ SELECT
     SUM(TotalAmount) AS total_revenue,
     ROUND(AVG(TotalAmount), 2) AS avg_order_value
 FROM SalesItems;
-
+---
 ### 2. Sales & Revenue Performance by Product Category
 ```sql
 SELECT 
