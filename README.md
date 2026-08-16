@@ -22,3 +22,16 @@ SELECT
     SUM(TotalAmount) AS total_revenue,
     ROUND(AVG(TotalAmount), 2) AS avg_order_value
 FROM SalesItems;
+
+### 2. Sales & Revenue Performance by Product Category
+```sql
+SELECT 
+    p.Category,
+    COUNT(s.TransactionID) AS total_units_sold,
+    SUM(s.TotalAmount) AS revenue,
+    ROUND(AVG(s.Discount), 2) AS avg_discount_rate
+FROM SalesItems s
+JOIN ProductItems p ON s.ProductID = p.ProductID
+GROUP BY p.Category
+ORDER BY revenue DESC;
+
