@@ -1,72 +1,59 @@
 # Fashion Sales Data Analysis using SQL & Python
 
-## Objective
-Analyze fashion retail transaction and inventory data to uncover sales performance trends, identify top revenue-generating product categories, and evaluate customer purchasing behavior to inform inventory management and marketing strategies.
+## Project Overview
+This project provides an end-to-end exploratory data analysis of fashion retail sales and inventory data using **Python**, **Pandas**, and **SQLite**. By executing structured SQL queries directly within an in-memory SQLite database, this analysis reveals overall business performance, sales distribution across channels, and product catalog details.
 
 ---
 
-## Dataset Description
-The dataset is structured across relational entities stored in `DataSet.xlsx`:
-* **SalesItems:** Contains transactional records including order IDs, transaction dates, customer IDs, product IDs, order quantities, applied discounts, and net order totals.
-* **ProductItems:** Contains product details including SKU codes, item names, product categories, unit prices, supplier details, and stock inventory levels.
+## Dataset Overview (`DataSet.xlsx`)
+The analysis relies on two sheets loaded from the `DataSet.xlsx` file:
+
+* **`SalesItems`**: Transaction records including sales quantities, unit prices, total item revenues, sales channels, and campaign references.
+* **`ProductItems`**: Catalog details including product IDs, product names, categories, brand info, catalog prices, cost prices, and target demographics.
 
 ---
 
-## Key SQL Insights
+## Tech Stack & Libraries
+* **Language:** Python
+* **Database Engine:** SQLite / `sqlite3`
+* **Data Processing & I/O:** `pandas`, `openpyxl`
+* **Data Visualization:** `matplotlib`, `seaborn`
+* **Analysis Notebook:** `Fashion_Sales_Analysis.ipynb`
 
-### 1. Overall Business Performance & KPIs
-```sql
-SELECT 
-    COUNT(DISTINCT TransactionID) AS total_orders,
-    COUNT(DISTINCT CustomerID) AS total_customers,
-    SUM(TotalAmount) AS total_revenue,
-    ROUND(AVG(TotalAmount), 2) AS avg_order_value
-FROM SalesItems;
-```
-### 2. Sales & Revenue Performance by Product Category
-```sql
-SELECT 
-    p.Category,
-    COUNT(s.TransactionID) AS total_units_sold,
-    SUM(s.TotalAmount) AS revenue,
-    ROUND(AVG(s.Discount), 2) AS avg_discount_rate
-FROM SalesItems s
-JOIN ProductItems p ON s.ProductID = p.ProductID
-GROUP BY p.Category
-ORDER BY revenue DESC;
-```
-### 3. Monthly Sales Growth & Revenue Trend
-```sql
-SELECT 
-    strftime('%Y-%m', s.TransactionDate) AS sales_month,
-    COUNT(DISTINCT s.TransactionID) AS monthly_orders,
-    SUM(s.TotalAmount) AS monthly_revenue
-FROM SalesItems s
-GROUP BY sales_month
-ORDER BY sales_month ASC;
-```
-### 4. Inventory Stock vs. Top Selling Products
-```sql
-SELECT 
-    p.ProductName,
-    p.Category,
-    p.StockQuantity,
-    COALESCE(SUM(s.Quantity), 0) AS units_sold
-FROM ProductItems p
-LEFT JOIN SalesItems s ON p.ProductID = s.ProductID
-GROUP BY p.ProductID
-ORDER BY units_sold DESC
-LIMIT 10;
-```
+---
 
-## Key Findings & Business Recommendations
-* **Top Revenue Drivers**: Sales are heavily concentrated in primary fashion categories; targeted marketing should focus on these high-margin core lines.
-* **Discount Impact**: Promotional discount periods correlate with higher order volumes, but discounting strategies must be balanced to protect overall operating argins.
-* **Stock Optimization**: Combining sales velocity data with remaining stock levels helps prevent stockouts on high-demand items while identifying slow-moving inventory.
+## Project Structure & Workflow
+The analysis is self-contained within **`Fashion_Sales_Analysis.ipynb`**, structured into three modular steps:
 
-## Tech Stack & Tools
-* **Language**: Python
-* **Database Engine**: SQLite / sqlite3
-* **Data Processing**: pandas, openpyxl
-* **Visualization**: matplotlib, seaborn
-* **Platform**: Jupyter Notebook / GitHub
+1. **Environment Setup & Database Initialization:** Installs required packages (`seaborn`, `openpyxl`), reads Excel data into Pandas DataFrames, and populates an in-memory SQLite database.
+2. **SQL Query Execution:** Runs SQL queries to evaluate key performance metrics:
+   * Overall Business KPIs (Total Transactions, Units Sold, Revenue, Average Order Value)
+   * Revenue breakdown by Sales Channel and Marketing Campaigns
+   * Product Catalog Breakdown by Category and Gender
+   * Transaction volume analysis by quantity purchased
+3. **Data Visualization:** Generates clean bar charts using `seaborn` to display revenue streams and catalog distribution visually.
+
+---
+
+## Key SQL Insights Summary
+
+| Metric / Query | Focus |
+| :--- | :--- |
+| **Overall Business KPIs** | Evaluates total sales revenue, total units sold, and average transaction value. |
+| **Sales Performance by Channel** | Compares total revenue and volume generated across different sales channels. |
+| **Catalog Breakdown** | Analyzes product depth across categories and gender segments along with average pricing. |
+
+---
+
+## How to Run the Notebook
+
+### 1. Web / Browser (JupyterLite or Try Jupyter)
+1. Upload **`DataSet.xlsx`** and **`Fashion_Sales_Analysis.ipynb`** into the workspace sidebar.
+2. Select **Python (Pyodide)** as the kernel when prompted.
+3. Run each cell sequentially (**Shift + Enter**).
+
+### 2. Local Setup
+1. Clone this repository:
+   ```bash
+   git clone [https://github.com/bendonald93/Fashion-trends-in-Europe-2025.git](https://github.com/bendonald93/Fashion-trends-in-Europe-2025.git)
+   cd Fashion-trends-in-Europe-2025
