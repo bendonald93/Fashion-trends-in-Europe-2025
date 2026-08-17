@@ -1,5 +1,5 @@
 # Fashion Sales Data Analysis using SQL & Python
-
+🌐 **[Auf Deutsch übersetzen (Translate to German)](https://translate.google.com/translate?sl=auto&tl=de&u=https://github.com/bendonald93/Fashion-trends-in-Europe-2025)**
 ## Project Overview
 This project provides an end-to-end exploratory data analysis of fashion retail sales and inventory data using **Python**, **Pandas**, and **SQLite**. By executing structured SQL queries directly within an in-memory SQLite database, this analysis reveals overall business performance, sales distribution across channels, and product catalog details.
 
